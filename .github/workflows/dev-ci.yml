@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -57,10 +57,18 @@ jobs:
             Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $packagePath -Force
           }
 
-      - name: Upload artifact to Actions
-        uses: actions/upload-artifact@v4
+      - name: Upload win-x64 artifact to Actions
+        uses: actions/upload-artifact@v6
         with:
-          name: IlliciumTTY-dev
-          path: artifacts/*.zip
+          name: IlliciumTTY-win-x64
+          path: artifacts/IlliciumTTY-win-x64.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload linux-x64 artifact to Actions
+        uses: actions/upload-artifact@v6
+        with:
+          name: IlliciumTTY-linux-x64
+          path: artifacts/IlliciumTTY-linux-x64.zip
           if-no-files-found: error
           retention-days: 14
