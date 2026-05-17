@@ -1,0 +1,35 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: 10.0.x
+  CONFIGURATION: Release
+  SOLUTION_PATH: IlliciumTTY.sln
+
+jobs:
+  build:
+    name: Verify build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore "${{ env.SOLUTION_PATH }}"
+
+      - name: Build
+        run: dotnet build "${{ env.SOLUTION_PATH }}" --configuration "${{ env.CONFIGURATION }}" --no-restore

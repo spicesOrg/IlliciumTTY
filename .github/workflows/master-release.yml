@@ -1,0 +1,75 @@
+name: Master Release
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+env:
+  DOTNET_VERSION: 10.0.x
+  CONFIGURATION: Release
+  SOLUTION_PATH: IlliciumTTY.sln
+  PROJECT_PATH: IlliciumTTY/IlliciumTTY.csproj
+
+jobs:
+  release:
+    name: Build and release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore "${{ env.SOLUTION_PATH }}"
+
+      - name: Build
+        run: dotnet build "${{ env.SOLUTION_PATH }}" --configuration "${{ env.CONFIGURATION }}" --no-restore
+
+      - name: Publish packages
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $runtimes = @('win-x64', 'linux-x64')
+
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+
+          foreach ($runtime in $runtimes) {
+            $publishDir = Join-Path 'publish' $runtime
+            dotnet publish "${{ env.PROJECT_PATH }}" `
+              --configuration "${{ env.CONFIGURATION }}" `
+              --runtime $runtime `
+              --self-contained true `
+              -p:PublishSingleFile=true `
+              -p:DebugType=None `
+              -p:DebugSymbols=false `
+              --output $publishDir
+
+            $packagePath = Join-Path 'artifacts' "IlliciumTTY-$runtime.zip"
+            Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $packagePath -Force
+          }
+
+      - name: Create GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: release-${{ github.run_number }}.${{ github.run_attempt }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $packages = Get-ChildItem -Path artifacts -Filter '*.zip' | Select-Object -ExpandProperty FullName
+          if (-not $packages) {
+            throw 'No release packages were generated.'
+          }
+
+          gh release create $env:RELEASE_TAG $packages `
+            --target $env:GITHUB_SHA `
+            --title "IlliciumTTY $env:RELEASE_TAG" `
+            --notes "Automated release for master commit $env:GITHUB_SHA"
