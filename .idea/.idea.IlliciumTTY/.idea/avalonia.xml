@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="IlliciumTTY/App.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Controls/ConnectionEditorPage.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Controls/ConnectionNavigationPanel.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Controls/ConnectionTreeSection.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Controls/SingleModePanel.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Controls/TerminalPane.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+        <entry key="IlliciumTTY/Views/MainWindow.axaml" value="IlliciumTTY/IlliciumTTY.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

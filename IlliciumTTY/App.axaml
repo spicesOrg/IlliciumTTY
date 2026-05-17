@@ -1,0 +1,190 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="IlliciumTTY.App"
+             xmlns:local="using:IlliciumTTY"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="TreeViewItemBackgroundSelected"
+                         Color="Transparent" />
+        <SolidColorBrush x:Key="TreeViewItemBackgroundSelectedPointerOver"
+                         Color="Transparent" />
+        <SolidColorBrush x:Key="TreeViewItemBackgroundSelectedPressed"
+                         Color="Transparent" />
+        <SolidColorBrush x:Key="TreeViewItemBorderBrushSelected"
+                         Color="Transparent" />
+        <SolidColorBrush x:Key="TreeViewItemBorderBrushSelectedPointerOver"
+                         Color="Transparent" />
+        <SolidColorBrush x:Key="TreeViewItemBorderBrushSelectedPressed"
+                         Color="Transparent" />
+        <StreamGeometry x:Key="IconLink">M16.243 9.878a1 1 0 0 1 1.32-.083l.094.083L19.778 12a5.5 5.5 0 0 1-7.596 7.952L12 19.778l-2.121-2.121a1 1 0 0 1 1.32-1.498l.094.083 2.121 2.122a3.5 3.5 0 0 0 5.091-4.8l-.141-.15-2.121-2.121a1 1 0 0 1 0-1.415M9.17 9.171a1 1 0 0 1 1.32-.083l.095.083 4.242 4.243a1 1 0 0 1-1.32 1.497l-.094-.083-4.243-4.242a1 1 0 0 1 0-1.415m-4.95-4.95a5.5 5.5 0 0 1 7.597-.173l.182.174 2.121 2.12A1 1 0 0 1 12.8 7.84l-.094-.083-2.121-2.121a3.5 3.5 0 0 0-5.091 4.8l.141.15 2.121 2.12a1 1 0 0 1-1.32 1.498l-.094-.083L4.222 12a5.5 5.5 0 0 1 0-7.778Z</StreamGeometry>
+        <StreamGeometry x:Key="IconNewFolder">M9.52 3a2 2 0 0 1 1.561.75l1.4 1.75H20a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2H4v14h16V7.5h-7.52a2 2 0 0 1-1.561-.75zM12 9a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2h-2v2a1 1 0 1 1-2 0v-2H9a1 1 0 1 1 0-2h2v-2a1 1 0 0 1 1-1</StreamGeometry>
+        <StreamGeometry x:Key="IconEdit">M16.724 3.03a2 2 0 0 0-2.828 0L3.582 13.344a2 2 0 0 0-.586 1.414v5.233c0 .557.453 1.01 1.01 1.01L20 21a1 1 0 1 0 0-2h-7.932l8.899-8.899a2 2 0 0 0 0-2.828zM9.24 19 19.553 8.687 15.31 4.444 4.996 14.758V19z</StreamGeometry>
+        <StreamGeometry x:Key="IconDelete">M14.28 2a2 2 0 0 1 1.897 1.368L16.72 5H20a1 1 0 1 1 0 2l-.003.071-.867 12.143A3 3 0 0 1 16.138 22H7.862a3 3 0 0 1-2.992-2.786L4.003 7.07A1.01 1.01 0 0 1 4 7a1 1 0 0 1 0-2h3.28l.543-1.632A2 2 0 0 1 9.721 2zm3.717 5H6.003l.862 12.071a1 1 0 0 0 .997.929h8.276a1 1 0 0 0 .997-.929zM10 10a1 1 0 0 1 .993.883L11 11v5a1 1 0 0 1-1.993.117L9 16v-5a1 1 0 0 1 1-1m4 0a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1m.28-6H9.72l-.333 1h5.226z</StreamGeometry>
+        <StreamGeometry x:Key="IconArrowUp">M19 5a1 1 0 1 0 0-2H5a1 1 0 1 0 0 2h14ZM7.05 12.703a1 1 0 0 0 1.415 0L11 10.167V20a1 1 0 0 0 2 0v-9.833l2.536 2.536a1 1 0 0 0 1.414-1.415l-4.243-4.242a1 1 0 0 0-1.414 0L7.05 11.288a1 1 0 0 0 0 1.415Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSend">M20.25 3.532a1 1 0 0 1 1.183 1.329l-6 15.5a1 1 0 0 1-1.624.362l-3.382-3.235-1.203 1.202c-.636.636-1.724.186-1.724-.714v-3.288L2.309 9.723a1 1 0 0 1 .442-1.691l17.5-4.5Zm-2.114 4.305-7.998 6.607 3.97 3.798zm-1.578-1.29L4.991 9.52l3.692 3.53 7.875-6.505Z</StreamGeometry>
+        <StreamGeometry x:Key="IconRefresh">M9.93 19.728a8.004 8.004 0 0 0 9.146-3.99 1 1 0 1 1 1.77.932c-2.13 4.04-6.836 6.221-11.434 4.99-5.335-1.43-8.5-6.913-7.071-12.248 1.43-5.335 6.913-8.5 12.247-7.071a10.003 10.003 0 0 1 7.414 9.58c.007.903-.995 1.402-1.713.92l-2.673-1.802c-1.008-.68-.332-2.251.854-1.986l1.058.236A8 8 0 1 0 9.93 19.728</StreamGeometry>
+        <StreamGeometry x:Key="IconTransfer">M11.5 9a1 1 0 1 0 0-2H9V5.207C9 3.87 7.384 3.2 6.44 4.147L1.644 8.938a1.5 1.5 0 0 0 0 2.122l4.794 4.793c.945.945 2.56.275 2.56-1.061V13H16a1 1 0 0 0 1-1v-1.587L20.586 14 17 17.586V16a1 1 0 0 0-1-1h-3.5a1 1 0 1 0 0 2H15v1.793c0 1.336 1.615 2.005 2.56 1.06l4.794-4.793a1.5 1.5 0 0 0 0-2.121L17.56 8.146C16.615 7.2 15 7.87 15 9.206V11H8a1 1 0 0 0-1 1v1.586L3.413 10 7 6.414V8a1 1 0 0 0 1 1h3.5Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSortName">M10.759 13c.94 0 1.43 1.092.855 1.792l-.078.086L7.414 19H11a1 1 0 0 1 .117 1.993L11 21H5.241c-.94 0-1.43-1.092-.855-1.792l.078-.086L8.586 15H5a1 1 0 0 1-.117-1.993L5 13zM17 4a1 1 0 0 1 1 1v12.414l1.121-1.121a1 1 0 0 1 1.415 1.414l-2.829 2.828a1 1 0 0 1-1.414 0l-2.828-2.828a1 1 0 0 1 1.414-1.414L16 17.414V5a1 1 0 0 1 1-1M8 3c.674 0 1.28.396 1.556 1.002l.054.133 2.332 6.529a1 1 0 0 1-1.838.78l-.046-.108L9.581 10H6.419l-.477 1.336a1 1 0 0 1-1.917-.56l.033-.112 2.332-6.53A1.71 1.71 0 0 1 8 3m0 2.573L7.133 8h1.734z</StreamGeometry>
+        <StreamGeometry x:Key="IconSortNumber">M5 6a3 3 0 0 1 6 0v2a3 3 0 0 1-6 0zm3-1a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1m10 0a1 1 0 1 0-2 0v12.414l-1.121-1.121a1 1 0 0 0-1.415 1.414l2.829 2.828a1 1 0 0 0 1.414 0l2.828-2.828a1 1 0 1 0-1.414-1.414L18 17.413zM5 15a3 3 0 0 1 5.995-.176l.005.186c0 .408-.039.799-.107 1.171-.264 1.433-.964 2.58-1.57 3.352-.307.39-.598.694-.815.904-.124.12-.25.238-.385.345a1 1 0 0 1-1.34-1.479L7.118 19l.224-.228A7.156 7.156 0 0 0 7.971 18 3 3 0 0 1 5 15m3-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2</StreamGeometry>
+        <StreamGeometry x:Key="IconFolder">M5 4a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zM4 7a1 1 0 0 1 1-1h4.646a1 1 0 0 1 .928.629l.995 2.485A3 3 0 0 0 14.354 11H20v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm16 2h-5.646a1 1 0 0 1-.928-.629L12.477 6H19a1 1 0 0 1 1 1z</StreamGeometry>
+        <StreamGeometry x:Key="IconTime">M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m0 2a1 1 0 0 1 .993.883L13 7v4.586l2.707 2.707a1 1 0 0 1-1.32 1.497l-.094-.083-3-3a1 1 0 0 1-.284-.576L11 12V7a1 1 0 0 1 1-1</StreamGeometry>
+        <StreamGeometry x:Key="IconExternalLink">M11 6a1 1 0 1 1 0 2H5v11h11v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm9-3a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V6.414l-8.293 8.293a1 1 0 0 1-1.414-1.414L17.586 5H15a1 1 0 1 1 0-2Z</StreamGeometry>
+        <StreamGeometry x:Key="IconClose">m12 13.414 5.657 5.657a1 1 0 0 0 1.414-1.414L13.414 12l5.657-5.657a1 1 0 0 0-1.414-1.414L12 10.586 6.343 4.929A1 1 0 0 0 4.93 6.343L10.586 12l-5.657 5.657a1 1 0 1 0 1.414 1.414z</StreamGeometry>
+        <StreamGeometry x:Key="IconSyncBidirectional">M15 11.5a1 1 0 1 0 2 0V9h1.793c1.336 0 2.005-1.616 1.06-2.56L15.06 1.644a1.5 1.5 0 0 0-2.122 0L8.147 6.44C7.2 7.384 7.87 9 9.206 9H11V16a1 1 0 0 0 1 1h1.587L10 20.586 6.414 17H8a1 1 0 0 0 1-1v-3.5a1 1 0 1 0-2 0V15H5.207c-1.336 0-2.006 1.615-1.06 2.56l4.792 4.794a1.5 1.5 0 0 0 2.122 0l4.793-4.794c.945-.945.275-2.56-1.061-2.56H13v-3a.76.76 0 0 0 0-.027V8a1 1 0 0 0-1-1h-1.587L14 3.413 17.586 7H16a1 1 0 0 0-1 1v3.5Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSyncTerminalToFileManager">m11 17.243-3.95-3.95a1 1 0 1 0-1.414 1.414l5.657 5.657a1 1 0 0 0 1.414 0l5.657-5.657a1 1 0 0 0-1.414-1.414L13 17.243V4a1 1 0 1 0-2 0v13.243Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSyncFileManagerToTerminal">M12.707 3.636a1 1 0 0 0-1.414 0L5.636 9.293a1 1 0 1 0 1.414 1.414L11 6.757V20a1 1 0 1 0 2 0V6.757l3.95 3.95a1 1 0 0 0 1.414-1.414l-5.657-5.657Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSyncDisabled">M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m2.829 3.757a1 1 0 0 1 1.497 1.32l-.083.095-7.071 7.07a1 1 0 0 1-1.498-1.32l.083-.094 7.072-7.07Z</StreamGeometry>
+        <StreamGeometry x:Key="IconTerminal">M20 17a1 1 0 0 1 .117 1.993L20 19h-8a1 1 0 0 1-.117-1.993L12 17zM3.636 5.636a1 1 0 0 1 1.32-.083l.094.083 5.657 5.657a1 1 0 0 1 .083 1.32l-.083.094-5.657 5.657a1 1 0 0 1-1.497-1.32l.083-.094L8.586 12l-4.95-4.95a1 1 0 0 1 0-1.414</StreamGeometry>
+        <StreamGeometry x:Key="IconConnect">M15 20a1 1 0 0 1 .117 1.993L15 22H9a1 1 0 0 1-.117-1.993L9 20zm0-18a1 1 0 0 1 .993.883L16 3v3h2a2 2 0 0 1 1.995 1.85L20 8v5a6 6 0 0 1-5.775 5.996L14 19h-4a6 6 0 0 1-5.996-5.775L4 13V8a2 2 0 0 1 1.85-1.995L6 6h2V3a1 1 0 0 1 1.993-.117L10 3v3h4V3a1 1 0 0 1 1-1m3 6H6v5a4 4 0 0 0 3.8 3.995L10 17h4a4 4 0 0 0 3.995-3.8L18 13z</StreamGeometry>
+        <StreamGeometry x:Key="IconDisconnect">M16.144 3.946a1 1 0 0 1 1.386-.279A9.992 9.992 0 0 1 22 12c0 5.523-4.477 10-10 10S2 17.523 2 12a9.992 9.992 0 0 1 4.47-8.333 1 1 0 1 1 1.107 1.666 8 8 0 1 0 8.846 0 1 1 0 0 1-.28-1.387ZM12 2a1 1 0 0 1 .993.883L13 3v10a1 1 0 0 1-1.993.117L11 13V3a1 1 0 0 1 1-1</StreamGeometry>
+        <StreamGeometry x:Key="IconSave">M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z</StreamGeometry>
+    </Application.Resources>
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <Style Selector="TextBlock.mono">
+            <Setter Property="FontFamily"
+                    Value="Cascadia Mono,Consolas,Microsoft YaHei UI,Microsoft YaHei,SimSun,Noto Sans CJK SC,Noto Sans Mono CJK SC,monospace" />
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button:pressed">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.fileHeaderButton">
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#566176" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.fileHeaderButton:pointerover">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.fileHeaderButton:pressed">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.fileHeaderButton PathIcon">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+        </Style>
+        <Style Selector="Border.terminalFrame">
+            <Setter Property="Background" Value="#0B1020" />
+            <Setter Property="BorderBrush" Value="#1D2638" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="ClipToBounds" Value="True" />
+        </Style>
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="#F5F7FB" />
+            <Setter Property="BorderBrush" Value="#D6DCE8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#D8DEE9" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BoxShadow" Value="0 8 20 0 #14000000" />
+        </Style>
+        <Style Selector="Border.workspaceCard">
+            <Setter Property="Background" Value="#F8F9FC" />
+            <Setter Property="BorderBrush" Value="#DDE2ED" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BoxShadow" Value="0 16 36 0 #2A1B2434" />
+        </Style>
+        <Style Selector="Button.iconButton">
+            <Setter Property="MinWidth" Value="32" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="#4F586A" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.iconButton:pointerover">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#253043" />
+        </Style>
+        <Style Selector="Button.iconButton:pressed">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.toastCloseButton">
+            <Setter Property="Foreground" Value="#F8FAFC" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.toastCloseButton:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="TreeViewItem /template/ Border#TreeViewItemLayoutRoot">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="TreeViewItem:selected /template/ Border#TreeViewItemLayoutRoot">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="TreeViewItem:selected /template/ Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="TreeViewItem:pointerover /template/ Border#TreeViewItemLayoutRoot">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="TreeViewItem:selected:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button.compactIconButton">
+            <Setter Property="MinWidth" Value="28" />
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+        </Style>
+        <Style Selector="Button.iconButton PathIcon">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#F4F6FB" />
+            <Setter Property="BorderBrush" Value="#D4DAE8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Foreground" Value="#1F2937" />
+            <Setter Property="SelectionBrush" Value="#663C82F6" />
+        </Style>
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="BorderBrush" Value="#C2CBDE" />
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#7C8DB5" />
+        </Style>
+    </Application.Styles>
+</Application>

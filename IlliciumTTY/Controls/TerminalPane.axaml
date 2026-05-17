@@ -1,0 +1,146 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="IlliciumTTY.Controls.TerminalPane"
+             x:CompileBindings="False">
+    <Grid x:Name="TerminalSurface"
+          Background="#0B1020">
+        <Canvas x:Name="TerminalStyleLayer"
+                ClipToBounds="True"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                IsHitTestVisible="False" />
+
+        <TextBox x:Name="TerminalText"
+                 Background="Transparent"
+                 Foreground="Transparent"
+                 CaretBrush="Transparent"
+                 SelectionBrush="#6638BDF8"
+                 BorderThickness="0"
+                 Padding="8"
+                 FontFamily="Cascadia Mono,Consolas,Menlo,Microsoft YaHei UI,Microsoft YaHei,SimSun,Noto Sans CJK SC,Noto Sans Mono CJK SC,monospace"
+                 FontSize="13"
+                 IsReadOnly="True"
+                 IsUndoEnabled="False"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
+                 TextWrapping="NoWrap"
+                 NewLine="&#x0A;"
+                 ClearSelectionOnLostFocus="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TextBox.ContextMenu>
+                <ContextMenu x:Name="TerminalContextMenu"
+                             Placement="Pointer"
+                             Opened="OnTerminalContextMenuOpened">
+                    <MenuItem x:Name="CopyTerminalMenuItem"
+                              Header="复制选中内容"
+                              InputGesture="Ctrl+Shift+C"
+                              Click="OnTerminalCopyMenuClick" />
+                    <MenuItem x:Name="PasteTerminalMenuItem"
+                              Header="粘贴剪贴板内容"
+                              InputGesture="Ctrl+Shift+V"
+                              Click="OnTerminalPasteMenuClick" />
+                    <Separator />
+                    <MenuItem x:Name="SelectAllTerminalMenuItem"
+                              Header="全选终端文本"
+                              Click="OnTerminalSelectAllMenuClick" />
+                    <MenuItem x:Name="ClearTerminalSelectionMenuItem"
+                              Header="清除选择"
+                              Click="OnTerminalClearSelectionMenuClick" />
+                    <Separator />
+                    <MenuItem x:Name="ConnectTerminalMenuItem"
+                              Header="连接"
+                              Click="OnTerminalConnectMenuClick" />
+                    <MenuItem x:Name="DisconnectTerminalMenuItem"
+                              Header="断开连接"
+                              Click="OnTerminalDisconnectMenuClick" />
+                </ContextMenu>
+            </TextBox.ContextMenu>
+            <TextBox.Resources>
+                <SolidColorBrush x:Key="TextControlBackground"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBackgroundPointerOver"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBackgroundFocused"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBackgroundDisabled"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlForeground"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlForegroundPointerOver"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlForegroundFocused"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlForegroundDisabled"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBorderBrush"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBorderBrushPointerOver"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBorderBrushFocused"
+                                 Color="Transparent" />
+                <SolidColorBrush x:Key="TextControlBorderBrushDisabled"
+                                 Color="Transparent" />
+            </TextBox.Resources>
+        </TextBox>
+
+        <Border x:Name="TerminalCursor"
+                Width="8"
+                Height="16"
+                Background="#DDE7F5"
+                Opacity="0.72"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                IsHitTestVisible="False"
+                IsVisible="False" />
+
+        <Border x:Name="TerminalOverlay"
+                IsVisible="{Binding IsTerminalOverlayVisible}"
+                Background="#0B1020"
+                Padding="24">
+            <StackPanel x:Name="TerminalOverlayContent"
+                        VerticalAlignment="Center"
+                        Spacing="12">
+                <TextBlock x:Name="OverlayName"
+                           Text="{Binding Name}"
+                           Foreground="#F8FAFC"
+                           FontSize="18"
+                           FontWeight="SemiBold" />
+                <TextBlock x:Name="OverlayHost"
+                           Text="{Binding HostLabel}"
+                           Foreground="#9AA6BA"
+                           FontFamily="Cascadia Mono,Consolas,Microsoft YaHei UI,Microsoft YaHei,SimSun,Noto Sans CJK SC,Noto Sans Mono CJK SC,monospace" />
+                <TextBlock x:Name="OverlayStatus"
+                           Text="{Binding StatusLabel}"
+                           Foreground="#8BE0C6"
+                           FontWeight="SemiBold" />
+                <TextBlock x:Name="OverlayLastError"
+                           Text="{Binding LastError}"
+                           Foreground="#FCA5A5"
+                           TextWrapping="Wrap" />
+                <TextBlock x:Name="OverlayConnectionPreview"
+                           Text="{Binding ConnectionPreview}"
+                           Foreground="#6F7B91"
+                           FontFamily="Cascadia Mono,Consolas,Microsoft YaHei UI,Microsoft YaHei,SimSun,Noto Sans CJK SC,Noto Sans Mono CJK SC,monospace"
+                           TextWrapping="Wrap" />
+
+                <StackPanel x:Name="OverlayActions"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <Button Classes="iconButton"
+                            ToolTip.Tip="连接"
+                            Command="{Binding ConnectCommand}"
+                            IsVisible="{Binding CanConnect}">
+                        <PathIcon Data="{StaticResource IconConnect}" />
+                    </Button>
+                    <Button Classes="iconButton"
+                            ToolTip.Tip="断开"
+                            Command="{Binding DisconnectCommand}"
+                            IsVisible="{Binding CanDisconnect}">
+                        <PathIcon Data="{StaticResource IconDisconnect}" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:IlliciumTTY.Controls"
+             x:Class="IlliciumTTY.Controls.ConnectionNavigationPanel"
+             x:CompileBindings="False">
+    <Grid DragDrop.AllowDrop="True"
+          DragDrop.DragOver="OnRootDragOver"
+          DragDrop.Drop="OnRootDrop">
+        <Border Background="#C9CEDD"
+                BorderBrush="#B7BECE"
+                BorderThickness="0,0,1,0"
+                Padding="10,12">
+            <Grid RowDefinitions="Auto,Auto,*">
+                <controls:ConnectionTreeSection x:Name="FavoriteSection"
+                                                Title="收藏链接"
+                                                GroupType="Favorite"
+                                                ItemsSource="{Binding FavoriteNodes}"
+                                                SelectedItem="{Binding SelectedNavNode, Mode=TwoWay}"
+                                                NewLinkCommand="{Binding NewFavoriteLinkCommand}"
+                                                NewFolderCommand="{Binding NewFavoriteFolderCommand}"
+                                                NewLinkToolTip="新建收藏链接"
+                                                NewFolderToolTip="新建收藏文件夹" />
+
+                <Border Grid.Row="1"
+                        Height="1"
+                        Background="#B8BFCE"
+                        Opacity="0.75"
+                        Margin="0,14" />
+
+                <controls:ConnectionTreeSection x:Name="TemporarySection"
+                                                Grid.Row="2"
+                                                Title="临时链接"
+                                                GroupType="Temporary"
+                                                ItemsSource="{Binding TemporaryNodes}"
+                                                SelectedItem="{Binding SelectedNavNode, Mode=TwoWay}"
+                                                NewLinkCommand="{Binding NewTemporaryLinkCommand}"
+                                                NewFolderCommand="{Binding NewTemporaryFolderCommand}"
+                                                NewLinkToolTip="新建临时链接"
+                                                NewFolderToolTip="新建临时文件夹" />
+            </Grid>
+        </Border>
+
+        <Canvas IsHitTestVisible="False">
+            <Border x:Name="NavDragPreview"
+                    IsVisible="False"
+                    Width="220"
+                    Padding="8"
+                    Background="#F8F9FC"
+                    BorderBrush="#C3CBDA"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    BoxShadow="0 10 24 0 #26000000"
+                    Opacity="0.92">
+                <Grid ColumnDefinitions="34,*">
+                    <Border Width="28"
+                            Height="24"
+                            CornerRadius="6"
+                            Background="#E4E8F2"
+                            VerticalAlignment="Center">
+                        <Grid>
+                            <PathIcon Data="{StaticResource IconFolder}"
+                                      IsVisible="{Binding IsFolder}"
+                                      Foreground="#52617A"
+                                      Width="14"
+                                      Height="14"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                            <PathIcon Data="{StaticResource IconLink}"
+                                      IsVisible="{Binding IsSshLink}"
+                                      Foreground="#52617A"
+                                      Width="14"
+                                      Height="14"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <StackPanel Grid.Column="1"
+                                Spacing="1">
+                        <TextBlock Text="{Binding Name}"
+                                   Foreground="#252B39"
+                                   FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding DisplaySubtitle}"
+                                   Foreground="#697286"
+                                   FontSize="11"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Canvas>
+    </Grid>
+</UserControl>

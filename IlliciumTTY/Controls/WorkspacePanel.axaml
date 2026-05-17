@@ -1,0 +1,148 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:IlliciumTTY.Controls"
+             x:Class="IlliciumTTY.Controls.WorkspacePanel"
+             x:CompileBindings="False">
+    <Border Classes="workspaceCard"
+            Margin="0,8,12,8"
+            Padding="16">
+        <Grid RowDefinitions="Auto,*">
+            <Grid ColumnDefinitions="*,Auto"
+                  Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="{Binding WorkspaceTitle}"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="#252B39" />
+                    <TextBlock Text="{Binding WorkspaceSubtitle}"
+                               Foreground="#687287" />
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Classes="iconButton"
+                        ToolTip.Tip="{Binding MultiTerminalInputSyncLabel}"
+                        Command="{Binding ToggleMultiTerminalInputSyncCommand}"
+                        IsVisible="{Binding IsMultiMode}"
+                        VerticalAlignment="Center">
+                    <Grid Width="18"
+                          Height="18">
+                        <PathIcon Data="{StaticResource IconTransfer}"
+                                  IsVisible="{Binding IsMultiTerminalInputSyncEnabled}"
+                                  Foreground="#253043"
+                                  Width="16"
+                                  Height="16"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        <PathIcon Data="{StaticResource IconSyncDisabled}"
+                                  IsVisible="{Binding IsMultiTerminalInputSyncDisabled}"
+                                  Foreground="#C2414B"
+                                  Width="17"
+                                  Height="17"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                    </Grid>
+                </Button>
+            </Grid>
+
+            <controls:SingleModePanel Grid.Row="1"
+                                      IsVisible="{Binding IsSingleMode}" />
+
+            <Grid Grid.Row="1"
+                  IsVisible="{Binding IsMultiMode}"
+                  RowDefinitions="*,8,230">
+                <Border Classes="terminalFrame"
+                        CornerRadius="8">
+                    <Grid>
+                        <controls:TerminalPane DataContext="{Binding ActiveSession}" />
+
+                        <TextBlock Text="该文件夹下暂无 SSH 链接"
+                                   IsVisible="{Binding IsMultiModeEmpty}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="#B9C3D4"
+                                   FontSize="18" />
+                    </Grid>
+                </Border>
+
+                <GridSplitter Grid.Row="1"
+                              Background="Transparent"
+                              ResizeDirection="Rows" />
+
+                <Border Grid.Row="2"
+                        Classes="panel"
+                        Padding="10">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding MultiPreviewSessions}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Classes="card"
+                                            Width="360"
+                                            Height="206"
+                                            Margin="0,0,10,0"
+                                            Padding="8">
+                                        <Grid RowDefinitions="Auto,*">
+                                            <Grid ColumnDefinitions="*,Auto,Auto,Auto"
+                                                  ColumnSpacing="6">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Foreground="#252B39"
+                                                               FontWeight="SemiBold"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{Binding StatusLabel}"
+                                                               Foreground="#687287"
+                                                               FontSize="12" />
+                                                </StackPanel>
+                                                <Button Grid.Column="1"
+                                                        Classes="iconButton compactIconButton"
+                                                        ToolTip.Tip="连接"
+                                                        Command="{Binding ConnectCommand}"
+                                                        IsVisible="{Binding CanConnect}">
+                                                    <PathIcon Data="{StaticResource IconConnect}" />
+                                                </Button>
+                                                <Button Grid.Column="2"
+                                                        Classes="iconButton compactIconButton"
+                                                        ToolTip.Tip="断开"
+                                                        Command="{Binding DisconnectCommand}"
+                                                        IsVisible="{Binding CanDisconnect}">
+                                                    <PathIcon Data="{StaticResource IconDisconnect}" />
+                                                </Button>
+                                                <Button Grid.Column="3"
+                                                        Classes="iconButton compactIconButton"
+                                                        ToolTip.Tip="关闭会话"
+                                                        Command="{Binding CloseCommand}">
+                                                    <PathIcon Data="{StaticResource IconClose}" />
+                                                </Button>
+                                            </Grid>
+
+                                            <Button Grid.Row="1"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    ToolTip.Tip="切换到主终端"
+                                                    Command="{Binding ActivateCommand}">
+                                                <Border Classes="terminalFrame"
+                                                        CornerRadius="6"
+                                                        ClipToBounds="True">
+                                                    <controls:TerminalPane DataContext="{Binding}"
+                                                                           IsPreview="True" />
+                                                </Border>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

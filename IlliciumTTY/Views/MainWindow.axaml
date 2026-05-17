@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IlliciumTTY.ViewModels"
+        xmlns:controls="using:IlliciumTTY.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="1200"
+        d:DesignHeight="760"
+        x:Class="IlliciumTTY.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="False"
+        Icon="/Assets/app-icon.ico"
+        Title="IlliciumTTY"
+        Width="1200"
+        Height="760"
+        MinWidth="980"
+        MinHeight="620">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid Background="#D7DCE8"
+          RowDefinitions="Auto,*">
+        <Grid Grid.Row="1"
+              ColumnDefinitions="248,10,*">
+            <controls:ConnectionNavigationPanel Grid.Column="0" />
+
+            <GridSplitter Grid.Column="1"
+                          Background="Transparent"
+                          ResizeDirection="Columns" />
+
+            <controls:WorkspacePanel Grid.Column="2" />
+        </Grid>
+
+        <controls:ConnectionEditorPage Grid.RowSpan="2"
+                                       IsVisible="{Binding IsEditorOpen}" />
+
+        <Border IsVisible="{Binding HasToast}"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="18"
+                Background="#1E2635"
+                BorderBrush="#3C465C"
+                BorderThickness="1"
+                CornerRadius="8"
+                ClipToBounds="True"
+                Padding="0">
+            <Grid MinWidth="260">
+                <ProgressBar VerticalAlignment="Top"
+                             Height="3"
+                             Minimum="0"
+                             Maximum="100"
+                             Value="{Binding ToastProgress}"
+                             Background="Transparent"
+                             Foreground="#9EB6F8"
+                             BorderThickness="0"
+                             CornerRadius="8,8,0,0"
+                             ZIndex="1" />
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="10"
+                      Margin="12,12,12,10">
+                    <TextBlock Text="{Binding ToastMessage}"
+                               Foreground="#F8FAFC"
+                               TextWrapping="Wrap"
+                               MaxWidth="420" />
+                    <Button Grid.Column="1"
+                            Classes="iconButton compactIconButton toastCloseButton"
+                            ToolTip.Tip="关闭提示"
+                            Command="{Binding DismissToastCommand}">
+                        <PathIcon Data="{StaticResource IconClose}"
+                                  Foreground="#F8FAFC" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

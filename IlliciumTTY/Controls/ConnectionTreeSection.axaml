@@ -1,0 +1,145 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:IlliciumTTY.ViewModels"
+             x:Class="IlliciumTTY.Controls.ConnectionTreeSection"
+             x:Name="Root"
+             x:CompileBindings="False">
+    <Grid RowDefinitions="Auto,*"
+          DragDrop.AllowDrop="True"
+          DragDrop.DragOver="OnSectionDragOver"
+          DragDrop.Drop="OnSectionDrop">
+        <Grid ColumnDefinitions="*,Auto,Auto"
+              Margin="0,0,0,8"
+              DragDrop.AllowDrop="True"
+              DragDrop.DragOver="OnSectionDragOver"
+              DragDrop.Drop="OnSectionDrop">
+            <TextBlock Text="{Binding #Root.Title}"
+                       FontWeight="SemiBold"
+                       Foreground="#4A5368"
+                       FontSize="13"
+                       VerticalAlignment="Center" />
+            <Button Grid.Column="1"
+                    Classes="iconButton compactIconButton"
+                    ToolTip.Tip="{Binding #Root.NewLinkToolTip}"
+                    Command="{Binding #Root.NewLinkCommand}">
+                <PathIcon Data="{StaticResource IconLink}" />
+            </Button>
+            <Button Grid.Column="2"
+                    Classes="iconButton compactIconButton"
+                    ToolTip.Tip="{Binding #Root.NewFolderToolTip}"
+                    Command="{Binding #Root.NewFolderCommand}"
+                    Margin="4,0,0,0">
+                <PathIcon Data="{StaticResource IconNewFolder}" />
+            </Button>
+            <Line Grid.ColumnSpan="3"
+                  IsVisible="{Binding #Root.IsRootDropCueVisible}"
+                  IsHitTestVisible="False"
+                  VerticalAlignment="Bottom"
+                  Margin="0,0,0,-5"
+                  StartPoint="0,0"
+                  EndPoint="1,0"
+                  Stretch="Fill"
+                  Stroke="#7C8DB5"
+                  StrokeThickness="2"
+                  StrokeDashArray="4,3" />
+        </Grid>
+
+        <TreeView Grid.Row="1"
+                  ItemsSource="{Binding #Root.ItemsSource}"
+                  SelectedItem="{Binding #Root.SelectedItem, Mode=TwoWay}"
+                  Background="Transparent"
+                  DragDrop.AllowDrop="True"
+                  DragDrop.DragOver="OnSectionDragOver"
+                  DragDrop.Drop="OnSectionDrop">
+            <TreeView.DataTemplates>
+                <TreeDataTemplate DataType="{x:Type vm:ConnectionNodeViewModel}"
+                                  ItemsSource="{Binding Children}">
+                    <Grid Background="Transparent"
+                          Margin="0,2"
+                          MinHeight="40"
+                          PointerPressed="OnNodePointerPressed"
+                          PointerReleased="OnNodePointerReleased"
+                          PointerCaptureLost="OnNodePointerCaptureLost"
+                          DragDrop.AllowDrop="True"
+                          DragDrop.DragOver="OnNodeDragOver"
+                          DragDrop.Drop="OnNodeDrop">
+                        <Line IsVisible="{Binding IsDropBefore}"
+                              IsHitTestVisible="False"
+                              ZIndex="2"
+                              Height="6"
+                              VerticalAlignment="Top"
+                              Margin="0,-3,0,0"
+                              StartPoint="0,3"
+                              EndPoint="1,3"
+                              Stretch="Fill"
+                              Stroke="#7C8DB5"
+                              StrokeThickness="2"
+                              StrokeDashArray="4,3" />
+                        <Border IsVisible="{Binding IsDropInside}"
+                                IsHitTestVisible="False"
+                                Background="#3DF8F9FC"
+                                BorderBrush="#7C8DB5"
+                                BorderThickness="1"
+                                CornerRadius="7"
+                                Margin="0,1" />
+                        <Border IsVisible="{Binding IsSelected}"
+                                IsHitTestVisible="False"
+                                Background="#F8F9FC"
+                                BorderBrush="#E4E9F2"
+                                BorderThickness="1"
+                                CornerRadius="7"
+                                BoxShadow="0 6 16 0 #18000000"
+                                Margin="0,0,4,0" />
+                        <Grid ColumnDefinitions="30,*"
+                              Margin="8,6,10,6"
+                              Opacity="{Binding DragOpacity}">
+                            <Border Width="18"
+                                    Height="18"
+                                    CornerRadius="5"
+                                    Background="#7EA0E8"
+                                    VerticalAlignment="Center">
+                                <Grid>
+                                    <PathIcon Data="{StaticResource IconFolder}"
+                                              IsVisible="{Binding IsFolder}"
+                                              Foreground="#FFFFFF"
+                                              Width="12"
+                                              Height="12"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                                    <PathIcon Data="{StaticResource IconLink}"
+                                              IsVisible="{Binding IsSshLink}"
+                                              Foreground="#FFFFFF"
+                                              Width="12"
+                                              Height="12"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                            <StackPanel Grid.Column="1"
+                                        Spacing="1">
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="#252B39"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding DisplaySubtitle}"
+                                           Foreground="#697286"
+                                           FontSize="11" />
+                            </StackPanel>
+                        </Grid>
+                        <Line IsVisible="{Binding IsDropAfter}"
+                              IsHitTestVisible="False"
+                              ZIndex="2"
+                              Height="6"
+                              VerticalAlignment="Bottom"
+                              Margin="0,0,0,-3"
+                              StartPoint="0,3"
+                              EndPoint="1,3"
+                              Stretch="Fill"
+                              Stroke="#7C8DB5"
+                              StrokeThickness="2"
+                              StrokeDashArray="4,3" />
+                    </Grid>
+                </TreeDataTemplate>
+            </TreeView.DataTemplates>
+        </TreeView>
+    </Grid>
+</UserControl>

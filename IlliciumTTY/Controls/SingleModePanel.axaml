@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:IlliciumTTY.Controls"
+             x:Class="IlliciumTTY.Controls.SingleModePanel"
+             x:CompileBindings="False">
+    <Grid RowDefinitions="2*,48,*">
+        <Border Classes="terminalFrame"
+                CornerRadius="8">
+            <controls:TerminalPane DataContext="{Binding ActiveSession}" />
+        </Border>
+
+        <Grid Grid.Row="1"
+              ColumnDefinitions="Auto,*,Auto,Auto,Auto"
+              VerticalAlignment="Center"
+              ColumnSpacing="8">
+            <Button Classes="iconButton"
+                    ToolTip.Tip="上级目录"
+                    Command="{Binding ActiveFileBrowser.NavigateUpCommand}">
+                <PathIcon Data="{StaticResource IconArrowUp}" />
+            </Button>
+            <TextBox Grid.Column="1"
+                     Text="{Binding ActiveFileBrowser.AddressBarText, Mode=TwoWay}"
+                     FontFamily="Cascadia Mono,Consolas,Microsoft YaHei UI,Microsoft YaHei,SimSun,Noto Sans CJK SC,Noto Sans Mono CJK SC,monospace"
+                     PlaceholderText="/home/user/project" />
+            <Button Grid.Column="2"
+                    Classes="iconButton"
+                    ToolTip.Tip="跳转"
+                    Command="{Binding ActiveFileBrowser.CommitAddressBarCommand}">
+                <PathIcon Data="{StaticResource IconSend}" />
+            </Button>
+            <Button Grid.Column="3"
+                    Classes="iconButton"
+                    ToolTip.Tip="刷新文件管理器"
+                    Command="{Binding ActiveFileBrowser.RefreshFileManagerCommand}">
+                <PathIcon Data="{StaticResource IconRefresh}" />
+            </Button>
+            <Button Grid.Column="4"
+                    Classes="iconButton"
+                    ToolTip.Tip="{Binding SyncModeLabel}"
+                    Command="{Binding ToggleSyncModeCommand}">
+                <Grid>
+                    <PathIcon Data="{StaticResource IconSyncBidirectional}"
+                              IsVisible="{Binding IsBidirectionalSyncMode}" />
+                    <PathIcon Data="{StaticResource IconSyncTerminalToFileManager}"
+                              IsVisible="{Binding IsTerminalToFileManagerSyncMode}" />
+                    <PathIcon Data="{StaticResource IconSyncFileManagerToTerminal}"
+                              IsVisible="{Binding IsFileManagerToTerminalSyncMode}" />
+                    <PathIcon Data="{StaticResource IconSyncDisabled}"
+                              IsVisible="{Binding IsSyncDisabledMode}" />
+                </Grid>
+            </Button>
+        </Grid>
+
+        <Border Grid.Row="2"
+                Classes="panel"
+                Padding="0">
+            <Grid RowDefinitions="Auto,Auto,*">
+                <Grid ColumnDefinitions="2*,*,*,*"
+                      Background="#EDF0F7"
+                      Height="38">
+                    <Button Classes="fileHeaderButton"
+                            ToolTip.Tip="按名称排序"
+                            Command="{Binding ActiveFileBrowser.SortRemoteFilesCommand}"
+                            CommandParameter="name">
+                        <PathIcon Data="{StaticResource IconSortName}" />
+                    </Button>
+                    <Button Grid.Column="1"
+                            Classes="fileHeaderButton"
+                            ToolTip.Tip="按大小排序"
+                            Command="{Binding ActiveFileBrowser.SortRemoteFilesCommand}"
+                            CommandParameter="size">
+                        <PathIcon Data="{StaticResource IconSortNumber}" />
+                    </Button>
+                    <Button Grid.Column="2"
+                            Classes="fileHeaderButton"
+                            ToolTip.Tip="按类型排序"
+                            Command="{Binding ActiveFileBrowser.SortRemoteFilesCommand}"
+                            CommandParameter="type">
+                        <PathIcon Data="{StaticResource IconFolder}" />
+                    </Button>
+                    <Button Grid.Column="3"
+                            Classes="fileHeaderButton"
+                            ToolTip.Tip="按修改时间排序"
+                            Command="{Binding ActiveFileBrowser.SortRemoteFilesCommand}"
+                            CommandParameter="modified">
+                        <PathIcon Data="{StaticResource IconTime}" />
+                    </Button>
+                </Grid>
+
+                <Border Grid.Row="1"
+                        IsVisible="{Binding ActiveFileBrowser.HasFileManagerError}"
+                        Background="#FFF1F2"
+                        Padding="12,8">
+                    <TextBlock Text="{Binding ActiveFileBrowser.FileManagerError}"
+                               Foreground="#BE123C"
+                               TextWrapping="Wrap" />
+                </Border>
+
+                <Grid Grid.Row="2">
+                    <ListBox x:Name="RemoteFileList"
+                             ItemsSource="{Binding ActiveFileBrowser.RemoteFiles}"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             DoubleTapped="OnRemoteFileListDoubleTapped"
+                             ContextRequested="OnRemoteFileListContextRequested">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,*,*,*"
+                                      MinHeight="34"
+                                      Margin="4,0"
+                                      Background="Transparent">
+                                    <TextBlock Text="{Binding Name}"
+                                               VerticalAlignment="Center"
+                                               Margin="8,0"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding SizeLabel}"
+                                               Classes="mono"
+                                               VerticalAlignment="Center"
+                                               Foreground="#687287" />
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding TypeLabel}"
+                                               VerticalAlignment="Center"
+                                               Foreground="#687287" />
+                                    <TextBlock Grid.Column="3"
+                                               Text="{Binding ModifiedAtLabel}"
+                                               Classes="mono"
+                                               VerticalAlignment="Center"
+                                               Foreground="#687287" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <TextBlock Text="正在加载目录..."
+                               IsVisible="{Binding ActiveFileBrowser.IsFileManagerBusy}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="#687287" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
