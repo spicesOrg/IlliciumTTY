@@ -1,0 +1,66 @@
+name: Dev CI
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: 10.0.x
+  CONFIGURATION: Release
+  SOLUTION_PATH: IlliciumTTY.sln
+  PROJECT_PATH: IlliciumTTY/IlliciumTTY.csproj
+
+jobs:
+  build:
+    name: Build and upload artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore "${{ env.SOLUTION_PATH }}"
+
+      - name: Build
+        run: dotnet build "${{ env.SOLUTION_PATH }}" --configuration "${{ env.CONFIGURATION }}" --no-restore
+
+      - name: Publish packages
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $runtimes = @('win-x64', 'linux-x64')
+
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+
+          foreach ($runtime in $runtimes) {
+            $publishDir = Join-Path 'publish' $runtime
+            dotnet publish "${{ env.PROJECT_PATH }}" `
+              --configuration "${{ env.CONFIGURATION }}" `
+              --runtime $runtime `
+              --self-contained true `
+              -p:PublishSingleFile=true `
+              -p:DebugType=None `
+              -p:DebugSymbols=false `
+              --output $publishDir
+
+            $packagePath = Join-Path 'artifacts' "IlliciumTTY-$runtime.zip"
+            Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $packagePath -Force
+          }
+
+      - name: Upload artifact to Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: IlliciumTTY-dev
+          path: artifacts/*.zip
+          if-no-files-found: error
+          retention-days: 14
